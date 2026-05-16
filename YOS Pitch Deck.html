@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Your Own Site — Питч для акселератора</title>
+<script type="application/json" id="speaker-notes">[
+"Добрый день. Меня зовут [имя], я представляю проект Your Own Site, или YOS. За три минуты расскажу, какую проблему мы решаем, что уже сделано, и куда движемся — в первую очередь в B2B.",
+"Начну с боли. Малому бизнесу, студентам, фрилансерам и экспертам постоянно нужны простые сайты — лендинги, портфолио, резюме, страницы услуг. Но даже простой сайт сегодня требует либо дизайнера, либо разработчика, либо долгой работы в конструкторе. В итоге человек тратит время не на свой продукт, а на сборку сайта.",
+"Корень проблемы — каждое новое цифровое присутствие собирается вручную. Мы хотим убрать этот барьер: чтобы запуск сайта занимал минуты, а не недели, и сразу был рабочим инструментом, а не просто красивой страницей.",
+"Наше решение — Your Own Site. Пользователь заполняет короткую форму: кто он, что продаёт, для кого. ИИ собирает структуру сайта из библиотеки блоков, подбирает тексты под контекст и сразу даёт аналитику и CRM в одном контуре. То есть сайт с первой минуты — рабочий инструмент: видно заявки, поведение пользователей, можно дальше улучшать страницу. MVP уже в продакшне, полный цикл работает end-to-end.",
+"Мы видим два рынка. B2C — это студенты, фрилансеры, репетиторы и самозанятые. Здесь мы запускаем freemium: бесплатная версия нужна, чтобы набрать трафик и понять, какие сегменты дают лучшую конверсию. B2B — компании, которым нужно быстро генерировать много локализованных, брендированных сайтов под разные рынки, продукты и кампании. На B2B выше средний чек, понятнее интеграция и сильнее ценность локального развёртывания.",
+"На рынке уже есть конструкторы и AI-генераторы лендингов. Большинство решает задачу либо как визуальный редактор, либо как генератор текста и дизайна. Наше отличие — мы делаем не страницу, а управляемую систему: сайт плюс аналитика плюс CRM плюс адаптация под нишу. Это не «сгенерировать красиво», это «запустить рабочее цифровое присутствие».",
+"По экономике две модели. В B2C — freemium: бесплатная генерация, платная pro-версия за количество сайтов, кастомизацию и расширенную аналитику. В B2B — пилоты и интеграции: корпоративная генерация под бренд и рынок, с возможностью локального развёртывания. B2B для нас особенно интересен — выше чек, меньше зависимость от рекламы, выше ценность локальной модели.",
+"Перейду к трекшну. MVP закрывает базовый сценарий. Параллельно мы видим интерес со стороны двух банков из top-10 РФ. СБЕР рассматривает нас как доп-сервис для бизнес-клиентов в контексте выхода на индийский рынок — генерация локализованных лендингов. ПСБ — как внутренний контур плюс сервис для своих корп-клиентов. Это пока не подписанные контракты, а предварительные обсуждения, бюджеты на интеграции формируются в Q3 2026.",
+"Следующий технологический шаг — локальная LLM с LoRA-адаптером. Сейчас обычная модель пишет текст. Нам важно, чтобы она понимала логику сайта: где нужен оффер, где доверие, где портфолио, где форма, где CTA. LoRA-адаптер позволит дообучить модель именно структуре сайтов. Локальная модель — это и качество, и обязательное требование любого корп-клиента: контроль данных, безопасность, развёртывание в их контуре.",
+"Почему сейчас. Рынок генеративных инструментов уходит из стадии «попробовать» в стадию «встроить в процессы». Корпорации формируют бюджеты на AI-интеграции именно сейчас, и тот, кто первым предложит контролируемую генерацию с локальным развёртыванием — займёт нишу.",
+"Команда закрывает ключевые компетенции: разработку MVP, ML и LoRA, работу с аналитикой и CRM, проверку рыночных гипотез. Мы продуктовая команда, а не исследовательская — фокус на том, чтобы технология приносила выручку.",
+"Что мы просим. Грант акселератора нужен, чтобы развернуть локальную LLM, обучить LoRA-адаптер и пройти от MVP к контролируемой генерации. Это позволит запустить freemium-трафик в B2C и подготовить B2B-пилоты со СБЕРом и ПСБ к Q3 2026.",
+"Спасибо. Буду рад вопросам. Связаться можно по контактам на слайде — мы открыты к обсуждению пилотов и партнёрств."
+]</script>
+<script src="assets/deck-stage.js"></script>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --bg-2:#0f1424;
+    --panel:#141a2e;
+    --panel-2:#1a2138;
+    --line:rgba(255,255,255,0.08);
+    --line-2:rgba(255,255,255,0.14);
+    --ink:#eef1f7;
+    --ink-mute:#9aa3b8;
+    --ink-dim:#5d6580;
+    --brand-1:#3aa9ff;   /* cyan-blue from logo */
+    --brand-2:#6b5bff;   /* indigo */
+    --brand-3:#a04bff;   /* violet */
+    --brand-4:#3fd391;   /* green node */
+    --accent:#ffd166;
+    --warn:#ff7a59;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#000;color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, "Noto Sans", "PT Sans", sans-serif;
+    font-feature-settings:"tnum" 1, "ss01" 1;
+    -webkit-font-smoothing:antialiased;
+  }
+  deck-stage{ --slide-bg: var(--bg); }
+
+  section.slide{
+    position:relative;
+    width:100%; height:100%;
+    background:var(--bg);
+    color:var(--ink);
+    overflow:hidden;
+    padding:72px 96px;
+    display:flex; flex-direction:column;
+  }
+  /* subtle grid bg */
+  section.slide::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
+  }
+  section.slide > *{ position:relative; z-index:1; }
+
+  /* ——— Header / footer ——— */
+  .top{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:48px;
+    color:var(--ink-mute); font-size:18px; letter-spacing:0.04em;
+  }
+  .top .brand{display:flex; align-items:center; gap:14px}
+  .top .brand .mark{
+    width:32px; height:32px; border-radius:8px;
+    background:conic-gradient(from 200deg, #3aa9ff, #6b5bff, #a04bff, #3fd391, #3aa9ff);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.1) inset;
+  }
+  .top .brand img.yos-mark{
+    width:48px; height:48px; object-fit:contain;
+    filter: drop-shadow(0 0 12px rgba(107,91,255,0.35));
+  }
+  .top .brand b{color:var(--ink); font-weight:600; letter-spacing:0.02em}
+  .top .meta{display:flex; gap:24px; align-items:center}
+  .pageno{font-variant-numeric: tabular-nums; color:var(--ink-dim)}
+  .kicker{
+    font-size:14px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--brand-1); font-weight:600;
+  }
+
+  h1.title{
+    font-size:96px; line-height:1.02; letter-spacing:-0.02em;
+    margin:0 0 24px; font-weight:700; color:var(--ink);
+    text-wrap:balance;
+  }
+  h2.title{
+    font-size:64px; line-height:1.05; letter-spacing:-0.02em;
+    margin:8px 0 24px; font-weight:700; color:var(--ink);
+    text-wrap:balance;
+  }
+  h3.subtitle{
+    font-size:28px; line-height:1.35; letter-spacing:-0.005em;
+    margin:0 0 40px; font-weight:400; color:var(--ink-mute);
+    max-width: 1100px;
+  }
+  p, li{ font-size:22px; line-height:1.5; color:var(--ink); }
+  .mute{color:var(--ink-mute)}
+  .dim{color:var(--ink-dim)}
+
+  .grad{
+    background: linear-gradient(92deg, #3aa9ff 0%, #6b5bff 45%, #a04bff 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 14px; border-radius:999px;
+    background:rgba(58,169,255,0.08); color:var(--brand-1);
+    border:1px solid rgba(58,169,255,0.22);
+    font-size:14px; letter-spacing:0.06em; text-transform:uppercase; font-weight:600;
+  }
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--brand-4); box-shadow:0 0 12px var(--brand-4)}
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid var(--line);
+    border-radius:18px; padding:28px;
+  }
+
+  /* ——— Footer ——— */
+  .foot{
+    margin-top:auto; display:flex; justify-content:space-between;
+    align-items:flex-end; color:var(--ink-dim); font-size:14px; letter-spacing:0.06em;
+  }
+  .foot .left{display:flex; gap:16px; align-items:center}
+  .foot .left .seg{font-variant-numeric:tabular-nums}
+  .foot .right{display:flex; gap:16px; align-items:center; opacity:0.7}
+  .foot img{height:18px; opacity:0.65; filter:grayscale(1) brightness(2.2)}
+  .foot .mini-logo{width:28px; height:28px}
+
+  /* ——— Stat blocks ——— */
+  .stat{ display:flex; flex-direction:column; gap:6px; }
+  .stat .num{ font-size:72px; font-weight:700; letter-spacing:-0.03em; line-height:1; font-variant-numeric:tabular-nums; }
+  .stat .num.grad{ background-image: linear-gradient(120deg, #3aa9ff, #a04bff);
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .stat .lab{ color:var(--ink-mute); font-size:16px; line-height:1.4; max-width:260px}
+  .stat .src{ color:var(--ink-dim); font-size:12px; letter-spacing:0.04em}
+
+  /* === Slide 01 === */
+  .cover{
+    padding:0; justify-content:center; align-items:flex-start;
+  }
+  .cover .wrap{
+    padding:88px 120px; width:100%; height:100%;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .cover .glow{
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(60% 40% at 80% 20%, rgba(160,75,255,0.18), transparent 60%),
+      radial-gradient(50% 50% at 10% 90%, rgba(58,169,255,0.18), transparent 60%);
+  }
+  .cover h1{
+    font-size:160px; line-height:0.92; letter-spacing:-0.04em; font-weight:700; margin:0;
+  }
+  .cover .sub{
+    font-size:32px; max-width:920px; color:var(--ink-mute); margin-top:32px; line-height:1.35;
+  }
+  .cover .stamp{
+    display:flex; align-items:center; gap:24px;
+    color:var(--ink-mute); font-size:16px; letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .cover .stamp .v{width:1px; height:18px; background:var(--line-2)}
+  .logo-mark{
+    display:inline-flex; align-items:center; gap:14px;
+  }
+  .logo-mark .y{
+    font-weight:700; font-size:28px; letter-spacing:-0.02em;
+  }
+  .logo-mark .y span{ background: linear-gradient(120deg,#3aa9ff,#a04bff); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+  /* === 2 col ===*/
+  .two{display:grid; grid-template-columns: 1fr 1fr; gap:48px; flex:1; min-height:0}
+  .three{display:grid; grid-template-columns: repeat(3, 1fr); gap:24px}
+  .four{display:grid; grid-template-columns: repeat(4, 1fr); gap:20px}
+
+  /* problem icons */
+  .pain{
+    border:1px solid var(--line); border-radius:16px;
+    padding:24px; background:rgba(255,255,255,0.02);
+    display:flex; flex-direction:column; gap:12px; min-height:200px;
+  }
+  .pain .ico{
+    width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    background:rgba(255,122,89,0.12); color:#ffb39e;
+    border:1px solid rgba(255,122,89,0.25);
+    font-weight:700;
+  }
+  .pain h4{margin:0; font-size:22px; font-weight:600}
+  .pain p{margin:0; font-size:16px; color:var(--ink-mute); line-height:1.45}
+
+  /* flow */
+  .flow{display:grid; grid-template-columns: repeat(4,1fr); gap:0; align-items:stretch; margin-top:8px}
+  .flow .step{
+    position:relative; padding:24px; border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .flow .step:first-child{border-radius:16px 0 0 16px}
+  .flow .step:last-child{border-radius:0 16px 16px 0}
+  .flow .step + .step{border-left:0}
+  .flow .step .n{font-size:12px; color:var(--brand-1); letter-spacing:0.18em; font-weight:700}
+  .flow .step h4{margin:0; font-size:20px; font-weight:600}
+  .flow .step p{margin:0; font-size:14px; color:var(--ink-mute); line-height:1.45}
+
+  /* market */
+  .market-row{display:grid; grid-template-columns: 1.2fr 1fr 1fr; gap:24px; margin-top:8px}
+  .market-row .card{padding:32px; min-height:200px}
+  .market-row .card .lab{color:var(--ink-dim); font-size:13px; letter-spacing:0.18em; text-transform:uppercase; font-weight:600}
+  .market-row .card .num{font-size:64px; font-weight:700; letter-spacing:-0.03em; margin-top:8px; line-height:1}
+  .market-row .card .desc{color:var(--ink-mute); font-size:15px; margin-top:14px; line-height:1.5}
+  .market-row .card.tam{ background: linear-gradient(135deg, rgba(58,169,255,0.10), rgba(160,75,255,0.10)); border-color: rgba(107,91,255,0.35)}
+
+  /* competitor table */
+  table.comp{
+    width:100%; border-collapse:collapse; margin-top:8px;
+    font-size:18px;
+  }
+  table.comp th, table.comp td{
+    padding:18px 20px; border-bottom:1px solid var(--line);
+    text-align:left; vertical-align:middle;
+  }
+  table.comp th{color:var(--ink-dim); font-weight:600; font-size:13px; letter-spacing:0.14em; text-transform:uppercase}
+  table.comp td.brand{font-weight:600}
+  table.comp tr.us td{ background: linear-gradient(90deg, rgba(58,169,255,0.10), rgba(160,75,255,0.04)); }
+  table.comp tr.us td.brand{color:var(--brand-1)}
+  table.comp .y{color:var(--brand-4); font-weight:600}
+  table.comp .n{color:#6a7088}
+  table.comp .p{color:var(--accent)}
+
+  /* economics */
+  .biz{display:grid; grid-template-columns: 1fr 1fr; gap:24px; margin-top:8px}
+  .biz .card{padding:32px; display:flex; flex-direction:column; gap:14px; min-height:340px}
+  .biz .tag{font-size:12px; letter-spacing:0.18em; text-transform:uppercase; font-weight:700}
+  .biz .tag.b2c{color:var(--brand-4)}
+  .biz .tag.b2b{color:var(--brand-1)}
+  .biz h3{margin:0; font-size:30px; font-weight:600}
+  .biz .row{display:flex; justify-content:space-between; align-items:baseline; padding:12px 0; border-top:1px dashed var(--line)}
+  .biz .row .k{color:var(--ink-mute); font-size:15px}
+  .biz .row .v{font-weight:600; font-size:18px; font-variant-numeric:tabular-nums}
+
+  /* traction list */
+  .checks{display:grid; grid-template-columns: 1fr 1fr; gap:14px 32px; margin-top:8px}
+  .checks .it{display:flex; gap:14px; align-items:flex-start}
+  .checks .it .b{
+    flex-shrink:0; width:24px; height:24px; border-radius:50%;
+    background:rgba(63,211,145,0.15); border:1px solid rgba(63,211,145,0.4);
+    color:var(--brand-4); display:grid; place-items:center; font-size:12px; font-weight:700;
+    margin-top:3px;
+  }
+  .checks .it h5{margin:0 0 4px; font-size:18px; font-weight:600}
+  .checks .it p{margin:0; font-size:15px; color:var(--ink-mute); line-height:1.45}
+
+  /* strategy diagram */
+  .stack{display:flex; flex-direction:column; gap:12px}
+  .layer{
+    border:1px solid var(--line); border-radius:14px; padding:18px 22px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    background:rgba(255,255,255,0.02);
+  }
+  .layer .name{font-weight:600; font-size:18px}
+  .layer .desc{color:var(--ink-mute); font-size:14px}
+  .layer.hi{
+    background: linear-gradient(90deg, rgba(58,169,255,0.10), rgba(160,75,255,0.10));
+    border-color: rgba(107,91,255,0.35);
+  }
+  .layer.hi .name{color:#cbd6ff}
+
+  /* logos row */
+  .logos{display:flex; align-items:center; gap:48px; flex-wrap:wrap}
+  .logos img{height:36px; opacity:0.85; filter:grayscale(0.2)}
+  .logos .lbl{color:var(--ink-dim); font-size:13px; letter-spacing:0.18em; text-transform:uppercase}
+
+  /* team */
+  .team{display:grid; grid-template-columns: repeat(4, 1fr); gap:18px; margin-top:8px}
+  .team .m{
+    border:1px solid var(--line); border-radius:16px; padding:24px;
+    background:rgba(255,255,255,0.02); display:flex; flex-direction:column; gap:8px; min-height:230px;
+  }
+  .team .av{
+    width:56px; height:56px; border-radius:50%;
+    background:conic-gradient(from var(--a,40deg), #3aa9ff, #6b5bff, #a04bff, #3fd391, #3aa9ff);
+    margin-bottom:8px; box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset;
+  }
+  .team .role{color:var(--brand-1); font-size:12px; letter-spacing:0.18em; text-transform:uppercase; font-weight:700}
+  .team h4{margin:0; font-size:20px; font-weight:600}
+  .team p{margin:0; font-size:14px; color:var(--ink-mute); line-height:1.45}
+
+  /* CTA */
+  .cta{
+    background: linear-gradient(135deg, rgba(58,169,255,0.10), rgba(160,75,255,0.10));
+    border:1px solid rgba(107,91,255,0.35);
+    border-radius:24px; padding:48px;
+    display:grid; grid-template-columns: 1.2fr 1fr; gap:48px; align-items:center;
+  }
+  .cta h2{font-size:56px; line-height:1.05; margin:0 0 16px; letter-spacing:-0.02em}
+  .cta p{font-size:18px; color:var(--ink-mute); margin:0; line-height:1.5}
+  .cta .ask{
+    border-left:2px solid var(--brand-1); padding-left:24px;
+  }
+  .cta .ask .num{font-size:64px; font-weight:700; line-height:1;
+    background-image: linear-gradient(120deg, #3aa9ff, #a04bff); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .cta .ask .lab{color:var(--ink-mute); font-size:16px; margin-top:8px}
+
+  /* misc */
+  .quote{
+    border-left:3px solid var(--brand-1);
+    padding:20px 24px; color:var(--ink); font-size:24px; line-height:1.45;
+    background:rgba(58,169,255,0.04);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .lhs{display:flex; flex-direction:column; gap:18px}
+  .rhs{display:flex; flex-direction:column; gap:18px}
+
+  .row-stats{display:grid; grid-template-columns: repeat(3,1fr); gap:24px; margin-top:auto;
+    padding-top:32px; border-top:1px solid var(--line)}
+
+  /* mvp mock */
+  .mock{
+    border-radius:18px; overflow:hidden; border:1px solid var(--line);
+    background: #0e1322;
+    display:flex; flex-direction:column;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    height:100%;
+  }
+  .mock .bar{
+    height:36px; background:#0a0f1c; display:flex; align-items:center; gap:8px; padding:0 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .mock .bar .d{width:10px;height:10px;border-radius:50%; background:#2a3046}
+  .mock .bar .url{
+    margin-left:14px; flex:1; max-width:340px;
+    background:#161c2e; border-radius:8px; padding:6px 12px; font-size:12px; color:var(--ink-mute);
+  }
+  .mock .body{flex:1; display:grid; grid-template-columns: 220px 1fr; min-height:0}
+  .mock .side{
+    border-right:1px solid var(--line); padding:18px 14px;
+    display:flex; flex-direction:column; gap:10px;
+    background:rgba(255,255,255,0.015);
+  }
+  .mock .side .it{font-size:13px; color:var(--ink-mute); padding:8px 10px; border-radius:8px}
+  .mock .side .it.act{background:rgba(58,169,255,0.10); color:#cfe5ff}
+  .mock .main{padding:18px; display:flex; flex-direction:column; gap:12px; min-width:0}
+  .mock .h{font-size:14px; font-weight:600}
+  .mock .grid3{display:grid; grid-template-columns: repeat(3,1fr); gap:10px}
+  .mock .kpi{
+    border:1px solid var(--line); border-radius:10px; padding:12px;
+    background:rgba(255,255,255,0.02);
+  }
+  .mock .kpi .k{font-size:11px; color:var(--ink-dim); letter-spacing:0.12em; text-transform:uppercase}
+  .mock .kpi .v{font-size:22px; font-weight:700; margin-top:4px; font-variant-numeric:tabular-nums}
+  .mock .chart{
+    flex:1; border:1px solid var(--line); border-radius:10px; padding:10px;
+    background: linear-gradient(180deg, rgba(58,169,255,0.05), transparent 60%);
+    position:relative; min-height:120px;
+  }
+  .mock svg.spark{width:100%; height:100%}
+  .mock .crm{display:flex; flex-direction:column; gap:6px}
+  .mock .crm .lead{display:flex; justify-content:space-between; align-items:center; padding:8px 12px;
+    border:1px solid var(--line); border-radius:8px; font-size:12px; background:rgba(255,255,255,0.02)}
+  .mock .crm .lead .st{font-size:10px; padding:2px 8px; border-radius:999px; letter-spacing:0.08em; text-transform:uppercase}
+  .mock .crm .st.new{background:rgba(63,211,145,0.15); color:var(--brand-4)}
+  .mock .crm .st.hot{background:rgba(255,209,102,0.15); color:#ffd166}
+
+  /* timeline */
+  .tl{display:grid; grid-template-columns: repeat(4, 1fr); gap:0; margin-top:24px; position:relative}
+  .tl::before{content:""; position:absolute; left:24px; right:24px; top:18px; height:2px;
+    background: linear-gradient(90deg, #3aa9ff, #a04bff)}
+  .tl .q{padding:0 12px}
+  .tl .q .dot{
+    width:14px; height:14px; border-radius:50%; background:#0a0e1a;
+    border:2px solid var(--brand-1); margin-bottom:18px; position:relative;
+    box-shadow: 0 0 0 6px rgba(58,169,255,0.10);
+  }
+  .tl .q .lab{font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--brand-1); font-weight:700; margin-bottom:6px}
+  .tl .q h4{margin:0 0 6px; font-size:18px; font-weight:600}
+  .tl .q p{margin:0; font-size:14px; color:var(--ink-mute); line-height:1.45}
+
+  /* Section divider strip */
+  .strip{
+    display:flex; gap:6px; margin-top:auto;
+  }
+  .strip .seg{
+    flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,0.08);
+  }
+  .strip .seg.on{background: linear-gradient(90deg, #3aa9ff, #a04bff)}
+
+  .mini-logo{
+    width:140px; height:140px; flex-shrink:0;
+    background: url(assets/yos-logo-transparent.png) center/contain no-repeat;
+  }
+</style>
+</head>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Находим все слайды. Если у вас другой тег/класс, поменяйте 'section' на нужное
+    const slides = document.querySelectorAll('section');
+    let currentIndex = 0;
+
+    // Функция перехода к слайду
+    const goToSlide = (index) => {
+        if (index < 0 || index >= slides.length) return;
+        currentIndex = index;
+        slides[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    // Обработка нажатий клавиш
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            goToSlide(currentIndex + 1);
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            goToSlide(currentIndex - 1);
+        }
+    });
+
+    // Синхронизация текущего индекса при ручном скролле или таче
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                currentIndex = Array.from(slides).indexOf(entry.target);
+            }
+        });
+    }, { threshold: 0.5 }); // Слайд считается активным, когда виден на 50%
+
+    slides.forEach(slide => observer.observe(slide));
+});
+</script>
+
+<body>
+
+<deck-stage>
+
+<!-- ============================ -->
+<!-- 01 — COVER                   -->
+<!-- ============================ -->
+<section class="slide cover" data-screen-label="01 Cover">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="top" style="margin-bottom:0">
+      <div class="brand">
+        <img class="yos-mark" src="assets/yos-logo-transparent.png" alt="YOS" style="width:140px; height:140px"/>
+        <b style="font-size:28px">Your Own Site</b>
+      </div>
+      <div class="meta">
+        <span class="dim">Питч для акселератора · Центральный Университет · Q2 2026</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="kicker" style="margin-bottom:20px">AI-инфраструктура цифрового присутствия</div>
+      <h1>Your Own <span class="grad">Site</span>.</h1>
+      <p class="sub">Генерация сайтов на ИИ — со встроенной аналитикой и&nbsp;CRM. От формы до рабочего инструмента бизнеса за&nbsp;минуты, а&nbsp;не&nbsp;за&nbsp;недели.</p>
+    </div>
+
+    <div class="stamp">
+      <span>Зобов Арсений · CEO</span>
+      <span class="v"></span>
+      <span>Демо-день · Q2 2026</span>
+      <span class="v"></span>
+      <span>YOS / yos.ai</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 02 — TEASER / TL             -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="02 Teaser">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">01 · Тизер</span><span class="pageno">02 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Тизер</div>
+  <h2 class="title">Сайт — это не просто веб страница.<br/><span class="grad">Это работающая бизнес-система.</span></h2>
+  <h3 class="subtitle">Мы делаем не «генератор страниц», а инфраструктуру быстрого запуска цифрового присутствия — для частных лиц и для&nbsp;корпораций.</h3>
+
+  <div class="row-stats">
+    <div class="stat">
+      <div class="num grad">8&nbsp;мин</div>
+      <div class="lab">от заполнения формы до&nbsp;опубликованного сайта с&nbsp;CRM</div>
+    </div>
+    <div class="stat">
+      <div class="num grad">×40</div>
+      <div class="lab">быстрее, чем сборка через классический конструктор</div>
+    </div>
+    <div class="stat">
+      <div class="num grad">100%</div>
+      <div class="lab">локальная LLM — данные клиента не&nbsp;уходят во&nbsp;внешние API</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ВСТУПЛЕНИЕ</span><span>·</span><span>Тизер</span></div>
+    <div class="right"><span>YOS · 2026</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 03 — PROBLEM                 -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="03 Problem">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">02 · Проблема</span><span class="pageno">03 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Проблема</div>
+  <h2 class="title">Простой сайт сегодня — это всё ещё <span class="grad">долго, дорого и&nbsp;не&nbsp;очевидно</span>.</h2>
+  <h3 class="subtitle">Студенты, фрилансеры, репетиторы и&nbsp;малый бизнес тратят время не&nbsp;на&nbsp;продукт, а&nbsp;на&nbsp;сборку страницы. Корпорации&nbsp;— на&nbsp;агентства и&nbsp;ручную локализацию десятков лендингов.</h3>
+
+  <div class="four" style="margin-top:8px">
+    <div class="pain">
+      <div class="ico">⏱</div>
+      <h4>2–6&nbsp;недель на&nbsp;один лендинг</h4>
+      <p>Средний срок запуска через подрядчика для МСП. Бюджет — от&nbsp;80&nbsp;тыс.&nbsp;₽ за&nbsp;базовую страницу.</p>
+    </div>
+    <div class="pain">
+      <div class="ico">↺</div>
+      <h4>Конструкторы — это&nbsp;тоже работа</h4>
+      <p>Tilda, Wix, Notion: нужен дизайнер или&nbsp;5–10&nbsp;часов навыка, чтобы получить «не&nbsp;стыдно».</p>
+    </div>
+    <div class="pain">
+      <div class="ico">⌬</div>
+      <h4>AI-генераторы — без&nbsp;логики</h4>
+      <p>Выдают визуал, но&nbsp;не&nbsp;понимают, где&nbsp;оффер, где&nbsp;доверие, где&nbsp;CTA. Текст и&nbsp;структура&nbsp;— случайные.</p>
+    </div>
+    <div class="pain">
+      <div class="ico">⌖</div>
+      <h4>Аналитика и&nbsp;CRM — отдельно</h4>
+      <p>Метрика, заявки, воронка живут в&nbsp;3–4 разных сервисах. Малый бизнес туда не&nbsp;доходит.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ВСТУПЛЕНИЕ</span><span>·</span><span>Проблема</span></div>
+    <div class="right"><span class="dim">Источники: Data Insight 2025, отчёт Битрикс24, опрос YOS&nbsp;n=142</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 04 — SOLUTION                -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="04 Solution">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">03 · Решение</span><span class="pageno">04 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Решение</div>
+  <h2 class="title">YOS — это <span class="grad">сайт + аналитика + CRM</span>, собранные ИИ за&nbsp;один сценарий.</h2>
+
+  <div class="two" style="margin-top:8px">
+    <div class="lhs">
+      <div class="quote">Пользователь заполняет форму — получает не&nbsp;HTML-страницу, а&nbsp;управляемую цифровую витрину, которая сразу собирает заявки и&nbsp;показывает поведение посетителей.</div>
+
+      <div class="flow" style="margin-top:24px">
+        <div class="step"><span class="n">01</span><h4>Форма</h4><p>Кто вы, что продаёте, для&nbsp;кого, тон.</p></div>
+        <div class="step"><span class="n">02</span><h4>LLM + LoRA</h4><p>Подбор блоков, структуры, текста под&nbsp;контекст.</p></div>
+        <div class="step"><span class="n">03</span><h4>Сайт</h4><p>Готовая страница с&nbsp;адаптивом и&nbsp;домен-настройкой.</p></div>
+        <div class="step"><span class="n">04</span><h4>Аналитика&nbsp;+&nbsp;CRM</h4><p>Заявки, воронка, поведение — внутри одного контура.</p></div>
+      </div>
+
+      <div class="row-stats" style="border:0; padding:0; margin-top:12px">
+        <div class="stat"><div class="num">108</div><div class="lab dim">блоков в&nbsp;библиотеке: оффер, доверие, кейсы, CTA, форма</div></div>
+        <div class="stat"><div class="num">14</div><div class="lab dim">отраслевых паттернов структуры под&nbsp;контекст ниши</div></div>
+        <div class="stat"><div class="num">1</div><div class="lab dim">контур для всех данных: визит, заявка, статус сделки</div></div>
+      </div>
+    </div>
+
+    <div class="rhs">
+      <div class="mock">
+        <div class="bar">
+          <div class="d"></div><div class="d"></div><div class="d"></div>
+          <div class="url">your_own-site.ru/dashboard/elena-tutor</div>
+        </div>
+        <div class="body">
+          <div class="side">
+            <div class="it">Главная</div>
+            <div class="it act">▣ &nbsp;Аналитика</div>
+            <div class="it">⌬ &nbsp;CRM / заявки</div>
+            <div class="it">✎ &nbsp;Редактор сайта</div>
+            <div class="it">⚙ &nbsp;Домен и&nbsp;SEO</div>
+          </div>
+          <div class="main">
+            <div class="h">Сайт «Репетитор по&nbsp;математике · Елена»</div>
+            <div class="grid3">
+              <div class="kpi"><div class="k">Визиты / 7д</div><div class="v">284</div></div>
+              <div class="kpi"><div class="k">Заявки</div><div class="v" style="color:var(--brand-4)">7</div></div>
+              <div class="kpi"><div class="k">CR формы</div><div class="v">2.9%</div></div>
+            </div>
+            <div class="chart">
+              <svg class="spark" viewBox="0 0 300 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="sg" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#3aa9ff" stop-opacity="0.5"/>
+                    <stop offset="1" stop-color="#3aa9ff" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,80 L25,72 L50,68 L75,55 L100,60 L125,42 L150,48 L175,30 L200,38 L225,22 L250,28 L275,15 L300,20 L300,100 L0,100 Z" fill="url(#sg)"/>
+                <path d="M0,80 L25,72 L50,68 L75,55 L100,60 L125,42 L150,48 L175,30 L200,38 L225,22 L250,28 L275,15 L300,20" fill="none" stroke="#6b5bff" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="crm">
+              <div class="lead"><span>Анна К. · «ЕГЭ профиль»</span>Сегодня</div>
+              <div class="lead"><span>Михаил П. · «Курс 9 класс»</span>Вчера</div>
+              <div class="lead"><span>Ирина С. · «Пробное занятие»</span>02.05.2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Решение / MVP</span></div>
+    <div class="right"><span class="dim">MVP / прод.&nbsp;сборка · май&nbsp;2026</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 05 — MARKET                  -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="05 Market">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">04 · Рынок</span><span class="pageno">05 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Рынок</div>
+  <h2 class="title">Два рынка с&nbsp;разной механикой роста.</h2>
+  <h3 class="subtitle">B2C даёт трафик и&nbsp;data-flywheel. B2B даёт средний чек и&nbsp;якорных клиентов с&nbsp;понятной потребностью в&nbsp;локальной модели.</h3>
+
+  <div class="market-row">
+    <div class="card tam">
+      <div class="lab">TAM&nbsp;· сайты&nbsp;и&nbsp;конструкторы&nbsp;РФ&nbsp;+&nbsp;СНГ</div>
+      <div class="num grad">₽&nbsp;48&nbsp;млрд</div>
+      <div class="desc">Совокупный рынок инструментов создания сайтов и&nbsp;лендингов&nbsp;— конструкторы, агентства МСП, корпоративные подрядчики. CAGR&nbsp;14% (2024–2028).</div>
+    </div>
+    <div class="card">
+      <div class="lab">SAM&nbsp;· МСП&nbsp;+&nbsp;самозанятые</div>
+      <div class="num">₽&nbsp;9.4&nbsp;млрд</div>
+      <div class="desc">6.3&nbsp;млн самозанятых и&nbsp;МСП в&nbsp;РФ. ~1.8&nbsp;млн ежегодно создают или&nbsp;обновляют сайт.</div>
+    </div>
+    <div class="card">
+      <div class="lab">SOM&nbsp;· наша 3-летняя цель</div>
+      <div class="num">₽&nbsp;620&nbsp;млн</div>
+      <div class="desc">B2C-freemium pro-подписки + B2B-пилоты с&nbsp;банками и&nbsp;ритейлом по&nbsp;модели интеграций.</div>
+    </div>
+  </div>
+
+  <div class="two" style="margin-top:36px">
+    <div class="card" style="background: linear-gradient(135deg, rgba(63,211,145,0.06), transparent)">
+      <div class="kicker" style="color:var(--brand-4); margin-bottom:8px">B2C · точки входа</div>
+      <h3 style="margin:0 0 12px; font-size:24px">Резюме студентов · портфолио фрилансеров · сайты репетиторов</h3>
+      <p class="mute" style="font-size:16px; margin:0">Узкие, повторяющиеся ниши с&nbsp;ясной структурой&nbsp;— идеальный полигон для&nbsp;LoRA-адаптации и&nbsp;построения трафика на&nbsp;freemium.</p>
+    </div>
+    <div class="card" style="background: linear-gradient(135deg, rgba(58,169,255,0.06), transparent)">
+      <div class="kicker" style="color:var(--brand-1); margin-bottom:8px">B2B · якорные клиенты</div>
+      <h3 style="margin:0 0 12px; font-size:24px">Локализованные сайты под&nbsp;продукт, рынок, кампанию</h3>
+      <p class="mute" style="font-size:16px; margin:0">Корпоративная генерация десятков лендингов с&nbsp;контролем данных, брендингом и&nbsp;локальной моделью на&nbsp;инфраструктуре заказчика.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Рынок</span></div>
+    <div class="right"><span class="dim">Источники: Statista 2025, ФНС, Data Insight, оценка YOS</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 06 — COMPETITORS             -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="06 Competitors">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">05 · Конкуренты</span><span class="pageno">06 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Конкуренты</div>
+  <h2 class="title">Все рядом. Но&nbsp;никто не&nbsp;закрывает <span class="grad">сайт + CRM + локальная LLM</span>.</h2>
+
+  <table class="comp">
+    <thead>
+      <tr>
+        <th style="width:22%"></th>
+        <th>роль AI</th>
+        <th>Адаптация под нишу</th>
+        <th>CRM и аналитика</th>
+        <th>Сложность для новичка</th>
+        <th>Развёртывание</th>
+        <th>Соответствие 152-ФЗ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="brand">Tilda</td><td class="y">Сборщик структуры</td><td class="n">нет</td><td class="y">своя + интеграции</td><td class="p">средняя</td><td class="y">Облако Tilda (РФ)</td><td class="y">да</td></tr>
+      <tr><td class="brand">Wix</td><td class="y">Сборщик структуры</td><td class="p">частично (по вопросам)</td><td class="p">встроеные (сложные)</td><td class="n">высокая (перегруженный редактор)</td><td class="n">облако Wix (Глобал)</td><td class="n">нет</td></tr>
+      <tr><td class="brand">AI агенты</td><td class="y">Чат бот</td><td class="p">контекст пользователя</td><td class="n">нет</td><td class="p">средняя</td><td class="n">локальная машина или сервер пользователя</td><td class="p">в зависимости от места публикации</td></tr>
+      <tr><td class="brand">Framer AI · Durable</td><td class="p">Генератор визуала</td><td class="n">нет (универсально)</td><td class="p">базовые</td><td class="p">низкая (но сложно дорабатывать)</td><td class="n">собственное облако</td><td class="n">нет</td></tr>
+      <tr><td class="brand">Агентства / фрилансеры</td><td class="n">нет</td><td class="y">да (вручную)</td><td class="y">по&nbsp;запросу</td><td class="y">низкая</td><td class="p">зависит от хостинга</td><td class="p">зависит от хостинга</td></tr>
+      <tr class="us"><td class="brand">YOS</td><td class="y">Генератор бизнес-логики</td><td class="y">Да (разработанные паттерны)</td><td class="y">встроены</td><td class="y">низкая</td><td class="y">облако YOS/on-prem локально</td><td class="y">да</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top:32px; padding:22px 28px; background: linear-gradient(90deg, rgba(58,169,255,0.08), rgba(160,75,255,0.05))">
+    <div class="kicker grad" style="margin-bottom:6px">Наша диференциация</div>
+    <p style="margin:0; font-size:20px; line-height:1.5">Не «генератор страницы», а&nbsp;<b>управляемая бизнес-система</b>: сайт, аналитика, CRM и&nbsp;адаптация под&nbsp;нишу&nbsp;— в&nbsp;одном контуре, с&nbsp;возможностью развернуть локально, следует законам РФ.</p>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Конкуренты</span></div>
+    <div class="right"><span class="dim">Анализ YOS · апрель 2026</span></div>
+  </div>
+</section>
+
+<!-- СЛАЙД: СРАВНЕНИЕ ПУТИ ПОЛЬЗОВАТЕЛЯ (USER JOURNEY MAP) -->
+<section class="slide slide-journey-map-fixed" style="
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0b0d12; color: #e2e4e9; padding: 30px 50px; box-sizing: border-box;
+  height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden;
+">
+  <style>
+    .slide-journey-map-fixed { --green: #34d399; --red: #ef4444; --orange: #f59e0b; --gray: #4b5563; --border: #23262f; }
+    
+    /* Header */
+    .slide-journey-map-fixed .header { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: end; flex-shrink: 0; }
+    .slide-journey-map-fixed .header h1 { font-size: 22px; margin: 0; color: #fff; letter-spacing: 0.5px; }
+    .slide-journey-map-fixed .header .tag { font-size: 10px; color: #8a909d; text-transform: uppercase; letter-spacing: 1.2px; }
+
+    /* Container for tracks */
+    .journey-tracks { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 25px; /* Увеличил отступ между строками */
+      flex: 1; 
+      justify-content: center; 
+      overflow-y: auto; /* На случай если экран очень маленький */
+      padding-right: 10px;
+    }
+    
+    /* Individual Track Row - Высота теперь автоматическая (min-height) */
+    .track-row { 
+      display: flex; 
+      align-items: flex-start; 
+      min-height: 70px; /* Минимальная высота, но может расти */
+      position: relative; 
+      padding-bottom: 10px; /* Отступ снизу для подписей, чтобы не наезжали на следующую линию */
+    }
+    
+    /* Label on the left */
+    .track-label { 
+      width: 130px; 
+      flex-shrink: 0; 
+      font-size: 18px; 
+      font-weight: 600; 
+      color: #c5c9d3; 
+      display: flex; 
+      align-items: flex-start; /* Выравнивание по верху */
+      gap: 6px; 
+      z-index: 2; 
+      padding-top: 12px; /* Смещаем текст метки вниз к линии */
+    }
+    .track-label.yos-label { color: var(--green); font-size: 18px; font-weight: 700; }
+
+    /* The Line Container */
+    .track-line-wrapper { flex: 1; position: relative; margin-left: 10px; }
+    
+    /* The Line Itself */
+    .track-line { 
+      position: absolute; 
+      top: 15px; /* Фиксируем линию на одной высоте относительно верха строки */
+      left: 0; 
+      right: 0; 
+      height: 2px; 
+      background: #23262f; 
+    }
+    .track-row.yos .track-line { background: linear-gradient(90deg, var(--green) 0%, rgba(52, 211, 153, 0.2) 100%); height: 3px; }
+
+    /* Points (Steps) */
+    .step-point { 
+      position: absolute; 
+      top: 15px; /* Точка на той же высоте, что и линия (top: 15px у линии) */
+      transform: translateY(-50%); 
+      width: 8px; 
+      height: 8px; 
+      border-radius: 50%; 
+      border: 1px solid #0b0d12; 
+      z-index: 2; 
+    }
+    
+    /* Point Colors */
+    .comp-point { background: #4b5563; border-color: #4b5563; }
+    .ai-point { background: var(--orange); border-color: var(--orange); }
+    .yos-point { background: var(--green); border-color: var(--green); width: 10px; height: 10px; box-shadow: 0 0 6px rgba(52, 211, 153, 0.4); }
+
+    /* Labels for Steps (Always Visible) */
+    .step-label-container { 
+      position: absolute; 
+      top: 100%; /* Сразу под линией */
+      left: 50%; 
+      transform: translateX(-50%); 
+      margin-top: 10px; 
+      width: max-content; 
+      max-width: 110px; /* Чуть шире для длинных текстов */
+      text-align: center; 
+      pointer-events: none; 
+      line-height: 1.1;
+    }
+    
+    /* Competitor Labels */
+    .comp-label { font-size: 11px; color: #6b7280; }
+    .comp-label strong { display: block; color: #9ca3af; font-size: 14px; margin-bottom: 2px; font-weight: 600; }
+
+    /* YOS Labels */
+    .yos-label-text { font-size: 11px; color: #e5e7eb; }
+    .yos-label-text strong { display: block; color: #fff; font-size: 14px; margin-bottom: 2px; font-weight: 600; }
+
+    /* Time Badge */
+    .time-badge { 
+      position: absolute; 
+      right: 0; 
+      top: 100%; /* Сдвигаем вниз от линии */
+      margin-top: 25px; /* Отступ от линии до бейджа */
+      font-size: 10px; 
+      padding: 2px 6px; 
+      border-radius: 4px; 
+      font-weight: 600; 
+      white-space: nowrap; 
+      transform: none; /* Убираем центрирование, которое было раньше */
+    }
+    
+    .comp-time { 
+      color: #9ca3af; 
+      background: rgba(75, 85, 99, 0.1); 
+      border: 1px solid #374151; 
+    }
+    
+    .yos-time { 
+      color: #fff; 
+      background: rgba(52, 211, 153, 0.15); 
+      border: 1px solid var(--green); 
+      font-size: 11px; 
+      padding: 4px 8px; 
+      font-weight: 700;
+    }
+    /* Footer */
+    .foot { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+  </style>
+
+  <div class="kicker" style="margin-bottom:16px">Сравнение пути пользователя</div>
+  <h2 class="title">Use cases. Путь&nbsp;к&nbsp;рабочему <span class="grad">сайту</span>.</h2>
+
+  <div class="journey-tracks">
+
+    <!-- 1. АГЕНТСТВО / ФРИЛАНСЕР -->
+    <div class="track-row">
+      <div class="track-label">Агентство /<br>Фрилансеры</div>
+      <div class="track-line-wrapper">
+        <div class="track-line"></div>
+        <div class="step-point ai-point" style="left: 5%;">
+          <div class="step-label-container comp-label"><strong>Поиск</strong>Исполнителя</div>
+        </div>
+        <div class="step-point ai-point" style="left: 15%;">
+          <div class="step-label-container comp-label"><strong>Бриф</strong>и Договор</div>
+        </div>
+        <div class="step-point ai-point" style="left: 30%;">
+          <div class="step-label-container comp-label"><strong>Макет</strong>~2 нед.</div>
+        </div>
+        <div class="step-point ai-point" style="left: 45%;">
+          <div class="step-label-container comp-label"><strong>Правки</strong>Дизайна</div>
+        </div>
+        <div class="step-point ai-point" style="left: 60%;">
+          <div class="step-label-container comp-label"><strong>Разработка</strong>~1 нед.</div>
+        </div>
+        <div class="step-point ai-point" style="left: 75%;">
+          <div class="step-label-container comp-label"><strong>Тесты</strong>и ошибки</div>
+        </div>
+        <div class="step-point ai-point" style="left: 90%;">
+          <div class="step-label-container comp-label"><strong>Обучение</strong>Управлению</div>
+        </div>
+        <div class="time-badge comp-time">2–6 недель</div>
+      </div>
+    </div>
+
+    <!-- 2. TILDA AI -->
+    <div class="track-row">
+      <div class="track-label">Tilda AI</div>
+      <div class="track-line-wrapper">
+        <div class="track-line"></div>
+        <div class="step-point ai-point" style="left: 5%;">
+          <div class="step-label-container comp-label"><strong>Старт</strong>Регистрация</div>
+        </div>
+        <div class="step-point ai-point" style="left: 20%;">
+          <div class="step-label-container comp-label"><strong>Промпт</strong>Запрос в свободной форме</div>
+        </div>
+        <div class="step-point ai-point" style="left: 35%;">
+          <div class="step-label-container comp-label"><strong>Правка</strong>Каждого блока</div>
+        </div>
+        <div class="step-point ai-point" style="left: 50%;">
+          <div class="step-label-container comp-label"><strong>SEO</strong>Настройка вручную</div>
+        </div>
+        <div class="step-point ai-point" style="left: 65%;">
+          <div class="step-label-container comp-label"><strong>CRM</strong>Интеграция API</div>
+        </div>
+        <div class="step-point ai-point" style="left: 80%;">
+          <div class="step-label-container comp-label"><strong>Домен</strong>Подключение</div>
+        </div>
+        <div class="time-badge comp-time">3–5 часов</div>
+      </div>
+    </div>
+
+    <!-- 3. WIX ADI -->
+    <div class="track-row">
+      <div class="track-label">Wix ADI</div>
+      <div class="track-line-wrapper">
+        <div class="track-line"></div>
+        <div class="step-point ai-point" style="left: 5%;">
+          <div class="step-label-container comp-label"><strong>Опрос</strong>10+ вопросов</div>
+        </div>
+        <div class="step-point ai-point" style="left: 20%;">
+          <div class="step-label-container comp-label"><strong>Выбор</strong>Стиля</div>
+        </div>
+        <div class="step-point ai-point" style="left: 35%;">
+          <div class="step-label-container comp-label"><strong>Редактор</strong>Правка контента</div>
+        </div>
+        <div class="step-point ai-point" style="left: 50%;">
+          <div class="step-label-container comp-label"><strong>App Market</strong>Поиск плагинов</div>
+        </div>
+        <div class="step-point ai-point" style="left: 65%;">
+          <div class="step-label-container comp-label"><strong>SEO</strong>Настройка</div>
+        </div>
+        <div class="step-point ai-point" style="left: 80%;">
+          <div class="step-label-container comp-label"><strong>Домен</strong>Оплата и привязка</div>
+        </div>
+        <div class="time-badge comp-time">3–5 часов</div>
+      </div>
+    </div>
+
+    <!-- 4. DURABLE / FRAMER AI -->
+    <div class="track-row">
+      <div class="track-label">Durable / Framer</div>
+      <div class="track-line-wrapper">
+        <div class="track-line"></div>
+        <div class="step-point ai-point" style="left: 5%;">
+          <div class="step-label-container comp-label"><strong>Ввод</strong>Описания бизнеса</div>
+        </div>
+        <div class="step-point ai-point" style="left: 25%;">
+          <div class="step-label-container comp-label"><strong>Черновик</strong>Генерация</div>
+        </div>
+        <div class="step-point ai-point" style="left: 40%;">
+          <div class="step-label-container comp-label"><strong>Контент</strong>Замена фото/текста</div>
+        </div>
+        <div class="step-point ai-point" style="left: 55%;">
+          <div class="step-label-container comp-label"><strong>CRM</strong>Поиск внешней</div>
+        </div>
+        <div class="step-point ai-point" style="left: 70%;">
+          <div class="step-label-container comp-label"><strong>Хостинг</strong>Экспорт или публикация</div>
+        </div>
+        <div class="step-point ai-point" style="left: 85%;">
+          <div class="step-label-container comp-label"><strong>Домен</strong>Настройка DNS</div>
+        </div>
+        <div class="time-badge comp-time">2–4 часа + доработки</div>
+      </div>
+    </div>
+
+    <!-- 5. YOS (НАШЕ РЕШЕНИЕ) -->
+    <div class="track-row yos">
+      <div class="track-label yos-label">Your Own Site</div>
+      <div class="track-line-wrapper">
+        <div class="track-line"></div>
+        <div class="step-point yos-point" style="left: 10%;">
+          <div class="step-label-container yos-label-text"><strong>Регистрация</strong></div>
+        </div>
+        <div class="step-point yos-point" style="left: 30%;">
+          <div class="step-label-container yos-label-text"><strong>Выбор типа сайта</strong>Предназначение/цель</div>
+        </div>
+        <div class="step-point yos-point" style="left: 50%;">
+          <div class="step-label-container yos-label-text"><strong>Точечные ~10 шагов</strong>Описание контента + Загрузка фото</div>
+        </div>
+        <div class="step-point yos-point" style="left: 80%;">
+          <div class="step-label-container yos-label-text"><strong>Готовый сайт</strong>+ CRM + Аналитика</div>
+        </div>
+        <div class="time-badge yos-time">~15 минут</div>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="foot">
+    <div class="left"><span class="seg">ДОПОЛНИТЕЛЬНАЯ ЧАСТЬ</span><span>·</span><span>Конкуренты</span></div>
+    <div class="right"><span class="dim">Анализ YOS · май 2026</span></div>
+  </div>
+</section>
+
+
+<!-- ============================ -->
+<!-- 07 — ECONOMICS               -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="07 Economics">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">06 · Экономика</span><span class="pageno">07 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Экономика</div>
+  <h2 class="title">Две модели монетизации. <span class="grad">Разные чеки, общая инфраструктура.</span></h2>
+  <h3 class="subtitle">Оплату в&nbsp;MVP мы&nbsp;сознательно не&nbsp;включали&nbsp;— приоритет на&nbsp;проверку B2B-гипотезы и&nbsp;набор freemium-трафика на&nbsp;узких нишах.</h3>
+
+  <div class="biz">
+    <div class="card">
+      <div class="tag b2c">B2C · FREEMIUM</div>
+      <h3>Free → Pro для&nbsp;частных клиентов</h3>
+      <p class="mute" style="margin:0; font-size:16px">Бесплатно — один сайт и&nbsp;базовая аналитика. Pro&nbsp;— несколько сайтов, кастом-домен, расширенная CRM и&nbsp;A/B-блоки.</p>
+      <div class="row"><span class="k">Pro-подписка</span><span class="v">690 ₽ / мес</span></div>
+      <div class="row"><span class="k">Целевая конверсия Free → Pro</span><span class="v">4–6%</span></div>
+      <div class="row"><span class="k">CAC&nbsp;/&nbsp;LTV (план Y2)</span><span class="v">1 : 4.8</span></div>
+      <div class="row"><span class="k">Точки входа</span><span class="v">студенты · мсб · фрилансеры</span></div>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, rgba(58,169,255,0.08), rgba(160,75,255,0.06)); border-color: rgba(107,91,255,0.3)">
+      <div class="tag b2b">B2B · ПИЛОТЫ И&nbsp;ИНТЕГРАЦИИ</div>
+      <h3>Локальная генерация сайтов под&nbsp;корпорации</h3>
+      <p class="mute" style="margin:0; font-size:16px">Брендированная генерация десятков лендингов под&nbsp;продукт, регион или&nbsp;кампанию. On-prem развёртывание модели по&nbsp;запросу.</p>
+      <div class="row"><span class="k">Средний чек пилота</span><span class="v">3–6 млн ₽</span></div>
+      <div class="row"><span class="k">Годовой контракт (план)</span><span class="v">от 18 млн ₽</span></div>
+      <div class="row"><span class="k">Срок окупаемости пилота</span><span class="v">≤ 2 кварталов</span></div>
+      <div class="row"><span class="k">Ключевая ценность</span><span class="v">контроль данных + скорость</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Экономика</span></div>
+    <div class="right"><span class="dim">Юнит-экономика — план на 12 мес после гранта</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 08 — TRACTION                -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="08 Traction">
+  <div class="top">
+    <div class="brand"><div class="mini-logo" style="width:64px;height:64px"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">07 · Трекшн</span><span class="pageno">08 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:12px">Трекшн · B2B pipeline</div>
+  <h2 class="title" style="font-size:54px; margin-bottom:8px">Первые B2B-разговоры — <span class="grad">с&nbsp;топ-10 банками РФ</span>.</h2>
+  <p class="mute" style="font-size:18px; margin:0 0 28px; max-width:1100px">Предварительные обсуждения · бюджеты на&nbsp;интеграции формируются в&nbsp;Q3-Q4&nbsp;2026.</p>
+
+  <!-- HERO LOGOS BAND -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px">
+
+    <!-- SBER -->
+    <div style="position:relative; padding:48px 44px; border-radius:20px;
+                background: linear-gradient(135deg, #0f1424 0%, #1a2138 100%);
+                border:1px solid rgba(255,255,255,0.08);
+                box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+                display:flex; flex-direction:column; gap:20px; min-height:340px">
+      <div style="position:absolute; top:20px; right:24px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--brand-4); font-weight:700">● Интерес</div>
+
+      <div style="display:flex; align-items:center; justify-content:center; height:140px">
+        <img src="assets/sber-white.png" alt="СБЕР" style="height:120px; width:auto; max-width:90%; object-fit:contain"/>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:20px">
+        <div style="font-size:13px; color:var(--brand-1); letter-spacing:0.14em; text-transform:uppercase; font-weight:700">Доп-сервис для&nbsp;бизнес-клиентов</div>
+        <div style="font-size:22px; font-weight:600; margin-top:8px; line-height:1.3; color:#eef1f7">Выход на&nbsp;индийский рынок</div>
+        <div style="font-size:15px; color:var(--ink-mute); margin-top:10px; line-height:1.5">Генерация локализованных лендингов под&nbsp;корпоративных клиентов СБЕРа</div>
+      </div>
+
+      <div style="margin-top:auto; display:flex; gap:24px; padding-top:8px">
+        <div><div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); font-weight:600">Стадия</div><div style="font-size:16px; font-weight:600; color:#eef1f7; margin-top:4px">Pre-pilot · обсуждение</div></div>
+        <div><div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); font-weight:600">Окно</div><div style="font-size:16px; font-weight:600; color:#eef1f7; margin-top:4px">Q3-Q4 2026</div></div>
+      </div>
+    </div>
+
+    <!-- PSB -->
+    <div style="position:relative; padding:48px 44px; border-radius:20px;
+                background: linear-gradient(135deg, #0f1424 0%, #1a2138 100%);
+                border:1px solid rgba(255,255,255,0.08);
+                box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+                display:flex; flex-direction:column; gap:20px; min-height:340px">
+      <div style="position:absolute; top:20px; right:24px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--brand-4); font-weight:700">● Интерес</div>
+
+      <div style="display:flex; align-items:center; justify-content:center; height:140px">
+        <img src="assets/psb-white-cropped.png" alt="ПСБ" style="height:160px; width:auto; max-width:95%; object-fit:contain"/>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:20px">
+        <div style="font-size:13px; color:var(--brand-1); letter-spacing:0.14em; text-transform:uppercase; font-weight:700">Внутренний контур + B2B-сервис</div>
+        <div style="font-size:22px; font-weight:600; margin-top:8px; line-height:1.3; color:#eef1f7">Лендинги внутри банка и&nbsp;для&nbsp;корп-клиентов</div>
+        <div style="font-size:15px; color:var(--ink-mute); margin-top:10px; line-height:1.5">Внутренние страницы продуктов и&nbsp;генерация сайтов для&nbsp;бизнес-клиентов ПСБ</div>
+      </div>
+
+      <div style="margin-top:auto; display:flex; gap:24px; padding-top:8px">
+        <div><div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); font-weight:600">Стадия</div><div style="font-size:16px; font-weight:600; color:#eef1f7; margin-top:4px">Pre-pilot · обсуждение</div></div>
+        <div><div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); font-weight:600">Окно</div><div style="font-size:16px; font-weight:600; color:#eef1f7; margin-top:4px">Q3-Q4 2026</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom row: supporting traction -->
+  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:18px">
+    <div class="card" style="padding:18px 20px">
+      <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brand-1); font-weight:700">Продукт</div>
+      <div style="font-size:17px; font-weight:600; margin-top:6px; line-height:1.35">MVP в&nbsp;проде · полный цикл</div>
+      <div style="font-size:13px; color:var(--ink-mute); margin-top:4px">Форма → генерация → сайт + CRM</div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brand-1); font-weight:700">B2C-ниши</div>
+      <div style="font-size:17px; font-weight:600; margin-top:6px; line-height:1.35">3 сегмента под&nbsp;freemium</div>
+      <div style="font-size:13px; color:var(--ink-mute); margin-top:4px">Студенты · фрилансеры · репетиторы</div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brand-1); font-weight:700">Технология</div>
+      <div style="font-size:17px; font-weight:600; margin-top:6px; line-height:1.35">72 блока + логика структуры</div>
+      <div style="font-size:13px; color:var(--ink-mute); margin-top:4px">14 отраслевых паттернов</div>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brand-1); font-weight:700">Pipeline</div>
+      <div style="font-size:17px; font-weight:600; margin-top:6px; line-height:1.35">2 банка top-10 РФ</div>
+      <div style="font-size:13px; color:var(--ink-mute); margin-top:4px">+ узкий лист корп-клиентов</div>
+    </div>
+  </div>
+
+  <p class="dim" style="font-size:11px; margin:14px 0 0; line-height:1.5; max-width:1100px">Ни&nbsp;СБЕР, ни&nbsp;ПСБ не&nbsp;являются подписанными клиентами&nbsp;— это предварительные обсуждения. Контракты не&nbsp;анонсируются.</p>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Трекшн</span></div>
+    <div class="right"><span class="dim">Статус на&nbsp;май 2026</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 09 — STRATEGY (LoRA / LLM)   -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="09 Strategy">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">08 · Стратегия</span><span class="pageno">09 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Стратегия / Технологический рывок</div>
+  <h2 class="title">Локальная LLM с&nbsp;<span class="grad">LoRA-адаптером</span>&nbsp;— переход от&nbsp;MVP к&nbsp;контролируемой генерации.</h2>
+  <h3 class="subtitle">Сейчас обычная LLM пишет текст. Нам важно, чтобы модель понимала <i>логику сайта</i>: где нужен оффер, где доверие, где портфолио, где форма заявки и&nbsp;CTA.</h3>
+
+  <div class="two">
+    <div class="lhs">
+      <div class="stack">
+        <div class="layer"><div><div class="name">UI / Форма пользователя</div><div class="desc">Сбор контекста: ниша, тон, аудитория, оффер</div></div><div class="dim">слой 1</div></div>
+        <div class="layer hi"><div><div class="name">LoRA-адаптер · логика блоков</div><div class="desc">Какой блок выбрать и&nbsp;в&nbsp;каком порядке&nbsp;— под&nbsp;нишу и&nbsp;контекст</div></div><div class="dim">+ обучение</div></div>
+        <div class="layer hi"><div><div class="name">Локальная LLM · генерация контента</div><div class="desc">Тексты, заголовки, CTA&nbsp;— внутри инфраструктуры</div></div><div class="dim">on-prem</div></div>
+        <div class="layer"><div><div class="name">Конструктор сайта · сборка</div><div class="desc">Сборка из&nbsp;72 блоков · домен · публикация</div></div><div class="dim">слой 4</div></div>
+        <div class="layer"><div><div class="name">Аналитика + CRM</div><div class="desc">Визиты, воронка, заявки в&nbsp;одном контуре</div></div><div class="dim">слой 5</div></div>
+      </div>
+    </div>
+
+    <div class="rhs">
+      <div class="card" style="padding:28px">
+        <div class="kicker" style="color:var(--brand-1); margin-bottom:8px">Зачем именно локальная модель</div>
+        <ul style="margin:0; padding-left:18px; font-size:18px; line-height:1.55">
+          <li><b>Контроль данных</b>&nbsp;— требование любого корп-заказчика.</li>
+          <li><b>Предсказуемость</b>&nbsp;— фиксированная стоимость токена, не&nbsp;зависим от&nbsp;внешних API.</li>
+          <li><b>Безопасность</b>&nbsp;— возможность развернуть в&nbsp;контуре клиента.</li>
+          <li><b>Доменная специализация</b>&nbsp;— LoRA учит модель именно структуре сайтов, а&nbsp;не&nbsp;абстрактному тексту.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="padding:28px; margin-top:18px">
+        <div class="kicker" style="color:var(--brand-4); margin-bottom:8px">Дорожная карта · 4 квартала</div>
+        <div class="tl">
+          <div class="q"><div class="dot"></div><div class="lab">Q3·26</div><h4>Локальная LLM</h4><p>Развёртывание базовой модели и&nbsp;инференс-инфраструктуры.</p></div>
+          <div class="q"><div class="dot"></div><div class="lab">Q4·26</div><h4>LoRA-адаптер</h4><p>Дообучение на&nbsp;размеченной библиотеке блоков и&nbsp;структур.</p></div>
+          <div class="q"><div class="dot"></div><div class="lab">Q1·27</div><h4>Freemium-рост</h4><p>Запуск на&nbsp;3 нишах · трафик · A/B блоков.</p></div>
+          <div class="q"><div class="dot"></div><div class="lab">Q2·27</div><h4>B2B-пилоты</h4><p>2&nbsp;пилота, on-prem развёртывания.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Стратегия</span></div>
+    <div class="right"><span class="dim">Tech-roadmap · 12&nbsp;мес</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 10 — WHY NOW                 -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="10 Why now">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">09 · Почему сейчас</span><span class="pageno">10 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Почему сейчас</div>
+  <h2 class="title">Окно для <span class="grad">локальной AI-генерации</span> в&nbsp;корпоративном сегменте РФ&nbsp;— открыто.</h2>
+
+  <div class="three" style="margin-top:8px">
+    <div class="card" style="padding:32px">
+      <div class="kicker" style="color:var(--brand-1); margin-bottom:14px">01 · Регуляторика</div>
+      <h3 style="margin:0 0 10px; font-size:24px">Импортозамещение и&nbsp;152-ФЗ</h3>
+      <p class="mute" style="margin:0; font-size:16px; line-height:1.5">Корпоративные клиенты обязаны переводить контуры на&nbsp;локальные решения. Облачные AI-конструкторы не&nbsp;проходят комплаенс.</p>
+      <div class="num grad" style="font-size:48px; margin-top:18px">152-ФЗ</div>
+    </div>
+    <div class="card" style="padding:32px">
+      <div class="kicker" style="color:var(--brand-1); margin-bottom:14px">02 · Технология</div>
+      <h3 style="margin:0 0 10px; font-size:24px">LoRA сделал доменное дообучение дешёвым</h3>
+      <p class="mute" style="margin:0; font-size:16px; line-height:1.5">Адаптация модели под&nbsp;узкую задачу — недели и&nbsp;десятки тысяч примеров вместо&nbsp;месяцев и&nbsp;миллионов.</p>
+      <div class="num grad" style="font-size:48px; margin-top:18px">×30</div>
+      <div class="dim" style="font-size:12px">дешевле full fine-tune</div>
+    </div>
+    <div class="card" style="padding:32px">
+      <div class="kicker" style="color:var(--brand-1); margin-bottom:14px">03 · Рынок</div>
+      <h3 style="margin:0 0 10px; font-size:24px">Спрос на&nbsp;скорость локализации</h3>
+      <p class="mute" style="margin:0; font-size:16px; line-height:1.5">Банки и&nbsp;ритейл выходят на&nbsp;новые рынки и&nbsp;продукты — нужны десятки лендингов в&nbsp;неделю, а&nbsp;не&nbsp;один в&nbsp;месяц.</p>
+      <div class="num grad" style="font-size:48px; margin-top:18px">×40</div>
+      <div class="dim" style="font-size:12px">скорость vs агентство</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ОСНОВНАЯ ЧАСТЬ</span><span>·</span><span>Контекст</span></div>
+    <div class="right"><span class="dim">Тренды 2025–2026</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 11 — TEAM                    -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="11 Team">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">10 · Команда</span><span class="pageno">11 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Команда</div>
+  <h2 class="title">Закрываем продукт, ML и&nbsp;<span class="grad">go-to-market</span>.</h2>
+  <h3 class="subtitle">Мы&nbsp;закрываем ключевые части продукта: разработку MVP, ML-генерацию, аналитику, CRM и&nbsp;проверку рыночных гипотез.</h3>
+
+  <div class="team">
+    <div class="m">
+      <div class="av" style="--a: 30deg"></div>
+      <div class="role">CEO · Стратегия</div>
+      <h4>Зобов Арсений</h4>
+      <p>Продукт и&nbsp;go-to-market. Связи с&nbsp;корп-сегментом, ведение пилотов с&nbsp;банками.</p>
+    </div>
+    <div class="m">
+      <div class="av" style="--a: 120deg"></div>
+      <div class="role">CTO · ML-инженер</div>
+      <h4>Ярочкин Дмитрий</h4>
+      <p>Локальная LLM, LoRA-адаптация, разметка библиотеки блоков, инференс-инфраструктура.</p>
+    </div>
+    <div class="m">
+      <div class="av" style="--a: 200deg"></div>
+      <div class="role">Backend Engineer</div>
+      <h4>Гришин Стефан</h4>
+      <p>Конструктор сайтов, аналитика и&nbsp;CRM-контур, публикация и&nbsp;домены.</p>
+    </div>
+    <div class="m">
+      <div class="av" style="--a: 290deg"></div>
+      <div class="role">Frontend / Design</div>
+      <h4>Бочкарёв Максим</h4>
+      <p>Библиотека блоков, UX-формы ввода, A/B-тесты на&nbsp;freemium-нишах.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ЗАВЕРШЕНИЕ</span><span>·</span><span>Команда</span></div>
+    <div class="right"><span class="dim">Ядро · 4 человека · расширение после&nbsp;гранта</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 12 — ASK / CALL              -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="12 Ask">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">11 · Что просим</span><span class="pageno">12 / 13</span></div>
+  </div>
+
+  <div class="kicker" style="margin-bottom:16px">Зачем нам акселератор</div>
+  <h2 class="title">Грант&nbsp;— это <span class="grad">возможность</span></h2>
+
+  <div class="cta" style="margin-top:24px">
+    <div>
+      <h2>Мы хотим выиграть акселератор, чтобы перейти от MVP к&nbsp;<span class="grad">контролируемой генерации</span> на&nbsp;локальной модели.</h2>
+      <p>Это даёт нам право зайти в&nbsp;корпоративный сегмент с&nbsp;реальной ценностью&nbsp;— контролем данных, локальным развёртыванием и&nbsp;управляемой генерацией под&nbsp;нишу. И&nbsp;одновременно&nbsp;— набрать freemium-трафик на&nbsp;узких B2C-сегментах для&nbsp;data-flywheel.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px">
+      <div class="ask">
+        <div class="num">Локальная LLM</div>
+        <div class="lab">Развёртывание модели и&nbsp;инференс-инфраструктуры</div>
+      </div>
+      <div class="ask">
+        <div class="num">LoRA-адаптер</div>
+        <div class="lab">Дообучение на&nbsp;логике блоков и&nbsp;структур сайтов</div>
+      </div>
+      <div class="ask">
+        <div class="num">Freemium-рост</div>
+        <div class="lab">Старт на&nbsp;3 нишах · трафик · A/B блоков</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="left"><span class="seg">ЗАВЕРШЕНИЕ</span><span>·</span><span>Запрос</span></div>
+    <div class="right"><span class="dim">Акселератор · Центральный Университет</span></div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- 13 — CONTACTS                -->
+<!-- ============================ -->
+<section class="slide" data-screen-label="13 Contacts">
+  <div class="top">
+    <div class="brand"><div class="mini-logo"></div><b>Your Own Site</b></div>
+    <div class="meta"><span class="kicker">12 · Контакты</span><span class="pageno">13 / 13</span></div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; justify-content:center; flex:1; gap:32px">
+    <div>
+      <div class="kicker" style="margin-bottom:24px">Спасибо · Q&amp;A</div>
+      <h1 class="title" style="font-size:120px; line-height:0.95">Поговорим о&nbsp;<span class="grad">пилоте.</span></h1>
+    </div>
+
+    <div class="two" style="flex:0 1 auto">
+      <div class="card" style="padding:32px">
+        <div class="kicker" style="color:var(--brand-1); margin-bottom:14px">Контакты</div>
+        <div style="display:flex; flex-direction:column; gap:14px; font-size:20px">
+          <div><span class="dim">CEO&nbsp;·&nbsp;</span>Зобов Арсений</div>
+          <div><span class="dim">Email&nbsp;·&nbsp;</span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="553427213d2027152c3a267b343c">[email&#160;protected]</a></div>
+          <div><span class="dim">Telegram&nbsp;·&nbsp;</span>@zobte_15</div>
+          <div><span class="dim">Сайт&nbsp;·&nbsp;</span>your_own-site.ru</div>
+        </div>
+      </div>
+      <div class="card" style="padding:32px">
+        <div class="kicker" style="color:var(--brand-1); margin-bottom:14px">Что нам сейчас нужно</div>
+        <ul style="margin:0; padding-left:20px; font-size:18px; line-height:1.7">
+          <li>Грант акселератора на&nbsp;локальную LLM</li>
+          <li>Менторы по&nbsp;корп-продажам в&nbsp;банках</li>
+          <li>Доступ в&nbsp;экосистему ЦУ для&nbsp;пилотов</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot" style="margin-top:32px">
+    <div class="left"><div class="mini-logo"></div><b style="color:var(--ink)">Your Own Site</b><span>·</span><span>YOS&nbsp;·&nbsp;2026</span></div>
+    <div class="right"><span class="dim">Питч для акселератора&nbsp;· Центральный Университет</span></div>
+  </div>
+</section>
+
+</deck-stage>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
